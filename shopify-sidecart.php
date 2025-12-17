@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name: Shopify Sidecart
- * Plugin URI: https://github.com/codebyamos/shopify-sidecart
  * Description: Custom Shopify sidecart with Storefront API integration for WordPress
  * Version: 2.1.0
  * Requires at least: 5.0
@@ -235,3 +234,16 @@ add_action('init', function() {
         new Shopify_Sidecart_Updater(__FILE__, $plugin_version);
     }
 });
+
+// Add "Check for updates" link to plugin row meta
+add_filter('plugin_row_meta', 'shopify_sidecart_plugin_row_meta', 10, 2);
+
+function shopify_sidecart_plugin_row_meta($links, $file) {
+    if (strpos($file, basename(__FILE__)) !== false) {
+        $new_links = array(
+            'check_for_updates' => '<a href="' . admin_url('update-core.php') . '">Check for updates</a>'
+        );
+        $links = array_merge($links, $new_links);
+    }
+    return $links;
+}
