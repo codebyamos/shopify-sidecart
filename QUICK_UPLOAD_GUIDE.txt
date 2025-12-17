@@ -1,0 +1,54 @@
+QUICK UPLOAD GUIDE - Shopify Sidecart to GitHub
+===============================================
+
+YOUR PLUGIN IS READY TO UPLOAD!
+
+Follow these 5 simple steps:
+
+STEP 1: CREATE GITHUB REPOSITORY
+--------------------------------
+1. Go to: https://github.com/new
+2. Repository name: shopify-sidecart
+3. Description: Shopify Sidecart WordPress Plugin
+4. Choose "Public"
+5. UNCHECK "Initialize with README"
+6. Click "Create repository"
+
+STEP 2: GET YOUR GITHUB USERNAME
+--------------------------------
+- Look at the top right of GitHub - that's your username
+- Example: If URL is github.com/johndoe, username is "johndoe"
+
+STEP 3: RUN THE UPLOAD SCRIPT
+-----------------------------
+Double-click "upload-to-github.bat" in this folder
+OR run these commands manually:
+
+Command Prompt:
+git remote add origin https://github.com/YOUR_USERNAME/shopify-sidecart.git
+git branch -M main
+git push -u origin main
+
+STEP 4: ENTER CREDENTIALS
+-------------------------
+When prompted:
+- Username: Your GitHub username
+- Password: Your GitHub password (use Personal Access Token if you have 2FA)
+
+STEP 5: CREATE FIRST RELEASE
+----------------------------
+1. Go to your new repository: https://github.com/YOUR_USERNAME/shopify-sidecart
+2. Click "Create a new release"
+3. Tag: v2.1.0
+4. Title: Shopify Sidecart v2.1.0
+5. Description: Initial release
+6. Click "Publish release"
+
+DONE! Your plugin is now on GitHub.
+
+For automatic WordPress updates:
+1. Edit includes/updater.php
+2. Change lines 18-19 to your GitHub username
+3. Create new releases when you update the plugin
+
+Need help? Check GITHUB_UPLOAD_GUIDE.md for detailed instructions.

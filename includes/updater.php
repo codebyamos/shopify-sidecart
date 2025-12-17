@@ -21,7 +21,7 @@ class Shopify_Sidecart_Updater {
      *
      * @var string
      */
-    private $owner = 'yourusername';
+    private $owner = 'codebyamos';
     
     /**
      * GitHub repository name

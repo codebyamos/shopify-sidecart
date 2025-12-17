@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Shopify Sidecart
- * Plugin URI: https://github.com/yourusername/shopify-sidecart
+ * Plugin URI: https://github.com/codebyamos/shopify-sidecart
  * Description: Custom Shopify sidecart with Storefront API integration for WordPress
  * Version: 2.1.0
  * Requires at least: 5.0
