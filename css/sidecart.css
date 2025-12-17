@@ -1,0 +1,754 @@
+/* sidecart.css */
+
+.products__row .product-option-select {
+    max-width: 206px;
+}
+
+.product-option-select {
+    width: 100%;
+    background-color: transparent;
+    padding: 5px 5px;
+    color: #82641e;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.product-hero__row .product-option-select {
+max-width: 250px !important;
+    display: block;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+@media screen and (min-width: 1020px) {
+    .product-hero__row .product-option-select {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    }
+}
+
+.item-variant-detail {
+    font-size: 11px;
+    display: block;
+    line-height: 1.2em;
+    margin-bottom: 5px;
+    color: #000; /* Black text */
+}
+
+.product-hero__row .custom-shopify-buy-box button {
+max-width: 250px;
+}
+
+.video-player .custom-shopify-buy-box {
+text-align: center;
+}
+
+.video-player .custom-shopify-buy-box button {
+max-width: 250px;
+}
+
+.slider--spirit-animal .custom-shopify-buy-box {
+text-align: center;
+}
+
+.slider--spirit-animal .custom-shopify-buy-box button {
+max-width: 250px;
+}
+
+/*
+   IMPORTANT: For 100vh to work correctly,
+   ensure your html and body have 100% height
+   and no default margins/paddings.
+*/
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /* Consider adding overflow: hidden; to body when sidecart is open
+       to prevent background scrolling. This typically requires JS.
+    */
+}
+
+
+#shopify-sidecart.sidecart {
+    position: fixed !important; /* Enforce fixed positioning */
+    right: -350px;
+    top: 0;
+    width: 350px !important; /* Enforce width */
+    background: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out; /* Ensure full transition */
+    z-index: 10001 !important; /* Increased z-index */
+
+    /* --- MODIFIED FOR HEIGHT AND OVERFLOW --- */
+    /* Use 'max-height: 100vh;' for responsive behavior,
+       and let 'min-height' act as a floor for desktop.
+       When viewport is smaller than min-height, overflow-y: auto should kick in.
+    */
+    height: 100vh; /* Attempt to take full viewport height */
+    min-height: 590px; /* Minimum height for the entire sidecart (for desktop primarily) */
+    overflow-y: auto; /* Always allow the sidecart itself to scroll if content exceeds its height */
+    box-sizing: border-box; /* Ensures padding/border is included in height calculation for the main sidecart */
+
+    /* Scrollbar styles for the main sidecart */
+    scrollbar-width: auto; /* Wider scrollbar for Firefox */
+    scrollbar-color: #323a31 transparent; /* Thumb and track colors for the main sidecart */
+}
+/* WebKit scrollbar styles for the main sidecart */
+#shopify-sidecart.sidecart::-webkit-scrollbar {
+    width: 16px; /* Total scrollbar width */
+}
+#shopify-sidecart.sidecart::-webkit-scrollbar-track {
+    background: transparent; /* Transparent track */
+}
+#shopify-sidecart.sidecart::-webkit-scrollbar-thumb {
+    background: #323a31; /* Thumb color */
+    border-radius: 8px;
+    min-height: 50px; /* Minimum thumb height */
+}
+#shopify-sidecart.sidecart::-webkit-scrollbar-thumb:hover {
+    background: #252b24; /* Thumb color on hover */
+}
+
+
+#shopify-sidecart.sidecart.open {
+    right: 0 !important; /* Enforce open position */
+}
+
+/* This is where the flex container setup starts for the content */
+.sidecart-content {
+    padding: 25px 15px 15px 15px; /* Adjusted padding */
+    font-family: Arial, sans-serif;
+    color: #82641e;
+    max-width: 350px; /* Constrain content width */
+    box-sizing: border-box; /* Include padding in total height */
+
+    /* --- MODIFIED FOR FLEXBOX LAYOUT --- */
+    height: 100%; /* Take 100% of the parent's (#shopify-sidecart) height */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack children vertically */
+}
+
+.sidecart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #000; /* Black text for "Cart" */
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 40px; /* Ensure header has minimum height */
+    box-sizing: border-box; /* Include padding in height */
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.sidecart-header svg path {
+    fill: #000; /* Black close icon */
+}
+
+.progress-container {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+    flex-shrink: 0; /* Prevent progress bar from shrinking */
+}
+
+[data-component="progress-bar"] {
+    position: relative;
+    width: 100%;
+}
+
+[data-component="bar"] {
+    height: 12px; /* Match the specified height */
+    border-radius: 5px;
+}
+
+[data-component="checkpoint"] {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    z-index: 21474839; /* High z-index to be in front */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    border-radius: 50%;
+}
+
+.shipping-message {
+    display: block;
+    font-size: 15px; /* Increased font size */
+    color: #717171; /* Grayish black text */
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* This will be the main scrollable section for cart items */
+.sidecart-main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Grow to fill available space */
+    flex-shrink: 1;
+    /* IMPORANT: Allow flex item to shrink below its content's default min-height */
+    min-height: 0;
+    margin-bottom: 0; /* Remove margin */
+}
+
+/* Custom Scrollbar Container */
+.custom-scrollbar-container {
+    position: relative;
+    flex-grow: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.cart-items-wrapper {
+    flex-grow: 1;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide native scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide native scrollbar IE/Edge */
+    padding-right: 15px; /* Space for custom scrollbar */
+    min-height: 0;
+}
+/* Hide native scrollbar for WebKit */
+.cart-items-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Custom Scrollbar Track */
+.custom-scrollbar-track {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+}
+
+/* Custom Scrollbar Thumb */
+.custom-scrollbar-thumb {
+    position: absolute;
+    right: 0;
+    width: 10px;
+    background: #323a31;
+    border-radius: 5px;
+    cursor: pointer;
+    min-height: 30px;
+    transition: background-color 0.2s;
+}
+.custom-scrollbar-thumb:hover {
+    background: #252b24;
+}
+.custom-scrollbar-thumb:active {
+    background: #1a1f19;
+}
+}
+.cart-items-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #252b24 !important; /* Thumb color on hover */
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    border-bottom: 1px dashed #82641e;
+    padding: 5px 0;
+    padding-bottom: 10px; /* Reduced padding */
+    box-sizing: border-box; /* Include padding in height */
+}
+
+.cart-item img {
+    margin-right: 8px;
+    height: 50px;
+    width: 50px;
+    display: block;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    border: solid 1px #cacaca;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    object-fit: contain;
+    padding-top: 2px; /* Reduced padding */
+    padding-bottom: 2px; /* Reduced padding */
+}
+
+.has-variant-details img {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.item-details {
+    flex: 1;
+    text-align: left;
+    max-width: 150px; /* Keep max-width for title truncation */
+}
+
+.item-details .item-title {
+    font-size: 13px;
+    color: #000; /* Black text */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+}
+
+.item-details .item-size {
+    font-size: 11px;
+    color: #000; /* Black text */
+    display: block;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    flex-shrink: 0; /* Prevent quantity controls from shrinking */
+}
+
+.quantity-controls button {
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 1px solid #82641e;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #82641e;
+    text-align: center;
+    line-height: 22px;
+    padding: 0;
+}
+
+.quantity-controls button:hover {
+    background: #f0e8d7;
+}
+
+.quantity-controls .quantity {
+    border: solid 1px #cacaca; /* Added border */
+    border-radius: 5px; /* Added border radius */
+    font-size: 14px;
+    margin: 0 4px;
+    min-width: 30px;
+    text-align: center;
+    color: #82641e;
+    background: #fff;
+    padding: 0 4px;
+    width: 40px; /* Allow manual editing space */
+}
+
+.item-price-final, .item-price-original {
+        font-weight: bold;
+    font-size: 13px;
+    margin-left: 10px;
+    white-space: nowrap;
+    flex-shrink: 0; /* Prevent price from shrinking */
+}
+
+.item-price {
+    font-weight: bold;
+    font-size: 13px;
+    color: #000; /* Black text */
+    margin-left: 10px;
+    white-space: nowrap;
+    flex-shrink: 0; /* Prevent price from shrinking */
+}
+
+.item-price-final {
+    color: #000; /* Black price */
+}
+
+.item-price-original {
+    color: #999; /* Muted original price */
+}
+
+.subtotal {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000; /* Black text */
+    text-align: right;
+    padding-right: 10px;
+    box-sizing: border-box; /* Include padding in height */
+    margin-top: 5px; /* Reduced margin */
+    margin-bottom: 3px; /* Reduced margin */
+    flex-shrink: 0; /* Prevent subtotal from shrinking */
+}
+
+.suggestions-and-checkout {
+    flex-shrink: 0; /* Prevent this section from shrinking */
+}
+
+.product-suggestions {
+    padding: 4px 6px; /* Reduced padding */
+    border-top: 1px dashed #82641e;
+    box-sizing: border-box; /* Include padding in height */
+    overflow: hidden; /* Hide overflow for slider */
+    position: relative;
+}
+
+.product-suggestions h3 {
+    font-size: 14px; /* Slightly smaller */
+    margin-top: 4px;
+    margin-bottom: 6px; /* Reduced margin-bottom */
+    color: #82641e; /* Original color */
+}
+
+/* Suggestions Slider Container */
+.suggestions-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.suggestions-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.suggestions-slider .suggestion {
+    flex: 0 0 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0; /* Remove margin in slider */
+}
+
+/* Slider dots indicator */
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding-bottom: 5px;
+}
+
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(130, 100, 30, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-dot.active {
+    background-color: #82641e;
+}
+
+.suggestion {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    box-sizing: border-box; /* Include padding in height */
+    text-decoration: none;
+    color: #82641e;
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba(130, 100, 30, 0.05);
+    transition: background 0.2s ease;
+}
+
+.suggestion:hover {
+    background: rgba(130, 100, 30, 0.1);
+}
+
+.suggestion a {
+    text-decoration: none;
+    color: #82641e;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.suggestion img {
+    margin-right: 8px;
+    height: 55px;
+    width: 55px;
+    display: block;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    border: solid 1px #cacaca;
+    min-width: 55px;
+    max-width: 55px;
+    min-height: 55px;
+    max-height: 55px;
+    object-fit: contain;
+    padding-top: 3px; /* Added padding */
+    padding-bottom: 3px; /* Added padding */
+}
+
+.suggestion span {
+    padding-right: 20px;
+    flex: 1;
+    font-size: 13px;
+    color: #000; /* Black text */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suggestion span:last-child {
+    font-weight: bold;
+    color: #000; /* Black price */
+    max-width: 70px;
+    flex: 0 0 auto;
+    padding-right: 0;
+}
+
+.checkout-button {
+    display: block;
+    width: 100%;
+    height: 52px; /* Minimum height */
+    padding: 0;
+    background: #82641e;
+    color: #fff;
+    border: none;
+    border-radius: 0; /* Remove border radius */
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 20px; /* Updated font size */
+    letter-spacing: 2px; /* Added letter spacing */
+    text-align: center;
+    line-height: 52px;
+    transition: background 0.2s;
+    box-sizing: border-box; /* Include padding in height */
+    font-family: "LHF Antique Half Block", serif; /* Specified font family */
+    text-transform: uppercase; /* All caps */
+}
+
+.checkout-button:hover {
+    background: #6a5020;
+}
+
+[data-component="toggle"] {
+font-family: "LHF Antique Half Block", serif;
+    position: fixed;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #82641e;
+    color: white;
+    border: none;
+    border-radius: 7px 0px 0px 7px;
+    width: 49px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 3px !important;
+    cursor: pointer;
+    z-index: 10003; /* Boosted z-index to ensure visibility */
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 12px;
+}
+
+[data-component="toggle"] svg {
+    width: 25px;
+    height: 15px;
+}
+
+.custom-cart-toggle {
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 10px;
+    color: #82641e;
+    display: inline-block;
+    transition: color 0.2s;
+    background: #fff;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 10002;
+}
+
+.custom-cart-toggle:hover {
+    color: #6a5020;
+}
+
+.shopify-buy__cart,
+.shopify-buy__cart-toggle,
+.shopify-buy-frame--cart {
+    display: none !important;
+}
+
+/* Ensure Shopify Buy Button and container are visible */
+.custom-shopify-buy-box button {
+    width: 100%;
+    height: 54.8px;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 11 !important;
+    padding: 10px 20px;
+    background: #82641e;
+    color: #fff !important;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+    transition: background 0.2s;
+    font-family: PT Serif, serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.custom-shopify-buy-box button:hover {
+    background: #6a5020;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #shopify-sidecart.sidecart {
+        width: 100%;
+        max-width: 100%;
+        right: -100%;
+        /* On small screens, let it take full viewport height, and scroll if content exceeds */
+        height: 100vh; /* Set to 100vh to ensure it always fills screen vertically */
+        min-height: auto; /* Remove min-height constraint for very small screens */
+    }
+    #shopify-sidecart.sidecart.open {
+        right: 0;
+    }
+    /* More compact cart items on mobile to show more products */
+    .cart-item {
+        padding: 4px 0;
+        padding-bottom: 8px;
+        margin-bottom: 4px;
+    }
+    .cart-item img {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        max-width: 45px;
+        min-height: 45px;
+        max-height: 45px;
+    }
+    .suggestion img {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        max-width: 40px;
+        min-height: 40px;
+        max-height: 40px;
+    }
+    .cart-item span,
+    .suggestion span {
+        font-size: 12px;
+    }
+    /* Increase cart items wrapper height on mobile */
+    .cart-items-wrapper {
+        flex-grow: 1;
+        overflow-y: scroll;
+    }
+    .custom-scrollbar-container {
+        flex-grow: 1;
+    }
+    /* Compact suggestions on mobile */
+    .product-suggestions {
+        padding: 3px 6px;
+    }
+    .product-suggestions h3 {
+        font-size: 12px;
+        margin-top: 2px;
+        margin-bottom: 4px;
+    }
+    .suggestion {
+        padding: 4px;
+    }
+    .slider-dots {
+        margin-top: 3px;
+        padding-bottom: 2px;
+    }
+    .slider-dot {
+        width: 5px;
+        height: 5px;
+    }
+    .checkout-button {
+        height: 44px;
+        line-height: 44px;
+        font-size: 15px;
+        margin-top: 3px;
+    }
+    .custom-cart-toggle {
+        top: 5px;
+        right: 5px;
+        font-size: 1em;
+        padding: 8px;
+    }
+    .sidecart-content {
+        padding: 10px 10px 8px 10px;
+    }
+    .progress-container {
+        margin-top: 5px;
+        margin-bottom: 8px;
+    }
+    .shipping-message {
+        font-size: 12px;
+    }
+    .subtotal {
+        margin-top: 3px;
+        margin-bottom: 2px;
+        font-size: 13px;
+    }
+    .sidecart-header {
+        min-height: 30px;
+    }
+}
+
+@media (max-width: 320px) {
+    #shopify-sidecart.sidecart {
+        width: 100%;
+        max-width: 100%;
+        right: -100%;
+    }
+    #shopify-sidecart.sidecart.open {
+        right: 0;
+    }
+    .sidecart-content {
+        padding: 10px 5px 5px 5px; /* Reduced padding for small screens */
+    }
+    /* Adjusted for smaller screens if necessary, though max-height will handle it */
+    .cart-item img,
+    .suggestion img {
+        width: 25px;
+        height: 25px;
+    }
+    .cart-item span,
+    .suggestion span {
+        font-size: 11px; /* Updated font size */
+    }
+    .checkout-button {
+        font-size: 16px; /* Reduced for small screens */
+        letter-spacing: 1px; /* Reduced letter spacing */
+        height: 40px;
+        line-height: 40px;
+    }
+    [data-component="toggle"] svg {
+        width: 20px;
+        height: 20px;
+    }
+}
