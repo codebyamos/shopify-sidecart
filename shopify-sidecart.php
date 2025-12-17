@@ -240,10 +240,47 @@ add_filter('plugin_row_meta', 'shopify_sidecart_plugin_row_meta', 10, 2);
 
 function shopify_sidecart_plugin_row_meta($links, $file) {
     if (strpos($file, basename(__FILE__)) !== false) {
+        $check_url = wp_nonce_url(admin_url('plugins.php?shopify_sidecart_check=1'), 'shopify_sidecart_check_nonce');
         $new_links = array(
-            'check_for_updates' => '<a href="' . admin_url('update-core.php') . '">Check for updates</a>'
+            'check_for_updates' => '<a href="' . esc_url($check_url) . '">Check for updates</a>'
         );
         $links = array_merge($links, $new_links);
     }
     return $links;
+}
+
+// Handle manual update check
+add_action('admin_init', 'shopify_sidecart_handle_manual_check');
+function shopify_sidecart_handle_manual_check() {
+    if (isset($_GET['shopify_sidecart_check']) && check_admin_referer('shopify_sidecart_check_nonce')) {
+        // Force check
+        delete_site_transient('update_plugins');
+        delete_transient('shopify_sidecart_latest_release');
+        wp_update_plugins();
+        
+        // Check status
+        $update_plugins = get_site_transient('update_plugins');
+        $basename = plugin_basename(__FILE__);
+        
+        if (isset($update_plugins->response[$basename])) {
+            $message = 'update_available';
+        } else {
+            $message = 'latest_version';
+        }
+        
+        wp_redirect(admin_url('plugins.php?shopify_sidecart_message=' . $message));
+        exit;
+    }
+}
+
+// Display admin notice
+add_action('admin_notices', 'shopify_sidecart_admin_notice');
+function shopify_sidecart_admin_notice() {
+    if (isset($_GET['shopify_sidecart_message'])) {
+        if ($_GET['shopify_sidecart_message'] === 'latest_version') {
+            echo '<div class="notice notice-success is-dismissible"><p>Shopify Sidecart: You are running the latest version.</p></div>';
+        } elseif ($_GET['shopify_sidecart_message'] === 'update_available') {
+            echo '<div class="notice notice-warning is-dismissible"><p>Shopify Sidecart: An update is available!</p></div>';
+        }
+    }
 }
